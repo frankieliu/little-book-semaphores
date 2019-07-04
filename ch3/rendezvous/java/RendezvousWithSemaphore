@@ -20,7 +20,7 @@ import java.util.concurrent.Semaphore;
 //        that two threads rendezvous at a point of execution, and neither is allowed to
 //        proceed until both have arrived.
 
-class Rendezvous2 extends Thread{
+public class RendezvousWithSemaphore extends Thread{
     static Semaphore a1Done = new Semaphore(1);
     static Semaphore b1Done = new Semaphore(1);
 

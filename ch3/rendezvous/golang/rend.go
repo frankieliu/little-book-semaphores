@@ -1,10 +1,11 @@
 package main
 import (
-//	"context"
+	//	"context"
 	"fmt"
-//	"log"
-//	"runtime"
-//	"golang.org/x/sync/semaphore"
+	//	"log"
+	//	"runtime"
+	//	"golang.org/x/sync/semaphore"
+	"time"
 )
 
 func main () {
@@ -16,10 +17,12 @@ func main () {
 	bAcquired := make(chan bool, 2)
 
 	fmt.Println("Starting")
-
 	done := make(chan bool)
 
+	r := 100
+	
 	go func() {
+		time.Sleep(time.Duration(r) * time.Microsecond)
 		fmt.Println("a1")
 		aAcquired <- true
 		<- bAcquired
@@ -28,6 +31,7 @@ func main () {
 	}()
 
 	go func() {
+		time.Sleep(time.Duration(r) * time.Microsecond)
 		fmt.Println("b1")
 		bAcquired <- true
 		<- aAcquired
@@ -35,8 +39,8 @@ func main () {
 		done <- true
 	}()
 
-	fmt.Println("End")
 	for i:=0; i<2; i++ {
 		<- done
 	}
+	fmt.Println("End")
 }

@@ -18,8 +18,9 @@ func main() {
 	ctx := context.TODO()
 	barrier := semaphore.NewWeighted(int64(1))
 	barrier.Acquire(ctx, 1)
-	count := Counter{val: 1}
+	count := Counter{val: 0}
 	done := make(chan int, numThreads)
+
 	for i := 0; i < numThreads; i++ {
 		go func() {
 			fmt.Println("rendezvous")
@@ -35,6 +36,7 @@ func main() {
 			done <- 1
 		}()
 	}
+
 	for i := 0; i < numThreads; i++ {
 		<-done
 	}

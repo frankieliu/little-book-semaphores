@@ -26,26 +26,26 @@ public class RendezvousWithSemaphore extends Thread{
 
     static class B extends Thread{
         public void run() {
+            System.out.println("b1");
+            b1Done.release();
             try {
                 a1Done.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("b1");
-            b1Done.release();
             System.out.println("b2");
         }
     }
 
     static class A extends Thread{
         public void run() {
+            System.out.println("a1");
+            a1Done.release();
             try {
                 b1Done.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("a1");
-            a1Done.release();
             System.out.println("a2");
         }
     }

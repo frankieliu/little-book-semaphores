@@ -14,13 +14,16 @@ type Counter struct {
 }
 
 func main() {
-	numThreads := 10
-	ctx := context.TODO()
+	numThreads := 10      // Number of threads to create
+	count := Counter{val: 0}
+	ctx := context.TODO() // Context req for golang's semaphores
+
+	// Barrier semaphore (don't allow it to go above 1)
+	// Initially set it to barrier to 0
 	barrier := semaphore.NewWeighted(int64(1))
 	barrier.Acquire(ctx, 1)
-	count := Counter{val: 0}
-	done := make(chan int, numThreads)
 
+	done := make(chan int, numThreads)
 	for i := 0; i < numThreads; i++ {
 		go func() {
 			fmt.Println("rendezvous")

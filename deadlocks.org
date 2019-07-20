@@ -6,3 +6,6 @@ hold wait
 circular wait
 no preemption
 mutual exclusion
+* java
+jenkov
+joshua block

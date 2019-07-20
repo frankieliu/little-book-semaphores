@@ -22,8 +22,8 @@ func main() {
 
 	fmt.Println("Hello")
 
-	// Producer
-	go func(id int) {
+	// Producer definition
+	prod := func(id int) {
 		randwait(5)
 		m.Lock()
 		q = append(q, id)
@@ -32,22 +32,10 @@ func main() {
 		cv.Signal()
 		print("Producer:", id, "\n")
 		done <- 1
-	}(1)
+	}
 
-	// Producer
-	go func(id int) {
-		randwait(5)
-		m.Lock()
-		q = append(q, id)
-		items++
-		m.Unlock()
-		cv.Signal()
-		print("Producer:", id, "\n")
-		done <- 1
-	}(2)
-
-	// Consumer
-	go func(id int) {
+	// Consumer definition
+	cons := func(id int) {
 		randwait(5)
 		var tmp int
 		m.Lock()
@@ -60,26 +48,19 @@ func main() {
 		m.Unlock()
 		print("Consumer:", id, " ", tmp, "\n")
 		done <- 1
-	}(1)
+	}
+
+	// Producer
+	go prod(3)
+	go prod(2)
+	go prod(1)
 
 	// Consumer
-	go func(id int) {
-		randwait(5)
-		var tmp int
-		m.Lock()
-		for items == 0 {
-			cv.Wait()
-		}
-		items--
-		tmp = q[0]
-		q = q[1:]
-		m.Unlock()
-		print("Consumer:", id, " ", tmp, "\n")
-		done <- 1
-	}(2)
+	go cons(1)
+	go cons(2)
+	go cons(3)
 
-
-	for i:=0; i<4; i++ {
+	for i:=0; i<5; i++ {
 		<- done
 	}
 }

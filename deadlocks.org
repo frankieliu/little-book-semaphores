@@ -1,0 +1,8 @@
+# -*- mode: org -*-
+#+STARTUP: indent hidestars showall
+
+* causes for a deadlock
+hold wait
+circular wait
+no preemption
+mutual exclusion

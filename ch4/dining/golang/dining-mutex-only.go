@@ -39,7 +39,7 @@ func main() {
 			mux[id].Lock()
 			if fork[id] == 0 {
 				fork[id] = 1
-				fmt.Println(id, "got left")
+				fmt.Println(id, "+ left")
 				left = true
 			}
 			mux[id].Unlock()
@@ -47,7 +47,7 @@ func main() {
 			mux[(id+1)%5].Lock()
 			if fork[(id+1)%5] == 0 {
 				fork[(id+1)%5] = 1
-				fmt.Println(id, "got right")
+				fmt.Println(id, "+ right")
 				right = true
 			}
 			mux[(id+1)%5].Unlock()
@@ -58,14 +58,14 @@ func main() {
 			if left {
 				mux[id].Lock()
 				fork[id] = 0
-				fmt.Println(id, "let got left")
+				fmt.Println(id, "- left")
 				left = false
 				mux[id].Unlock()
 			}
 			if right {
 				mux[(id+1)%5].Lock()
 				fork[(id+1)%5] = 0
-				fmt.Println(id, "let got right")
+				fmt.Println(id, "- right")
 				right = false
 				mux[(id+1)%5].Unlock()
 			}

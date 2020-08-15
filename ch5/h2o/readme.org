@@ -1,0 +1,17 @@
+h = sem(2)
+o = sem(1)
+b1 = barrier(3)
+b2 = barrier(3)
+
+h.wait()
+b1.wait()
+bond()
+b2.wait()
+h.signal()
+
+o.wait()
+b1.wait()
+bond()
+b2.wait()
+o.signal()
+
